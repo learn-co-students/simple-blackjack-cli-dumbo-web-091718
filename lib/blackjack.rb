@@ -15,11 +15,21 @@ def prompt_user
 end
 
 def get_user_input
-  gets.chomp 
+  gets.chomp
+end
+
+def game_won(dealer_total, card_total)
+  puts "Congrats, you won! The dealer's cards added up to #{dealer_total}. Your cards added up to #{card_total}."
 end
 
 def end_game(card_total)
   puts "Sorry, you hit #{card_total}. Thanks for playing!"
+end
+
+def dealers_hand
+  card1 = deal_card
+  card2 = deal_card
+  card1+card2
 end
 
 def initial_round
@@ -30,20 +40,20 @@ def initial_round
 end
 
 def hit?(current_total)
-  prompt_user 
+  prompt_user
   input = get_user_input
   newCard = 0
   if input == 'h'
     newCard = deal_card
   elsif input != 's'
-   invalid_command 
+   invalid_command
   end
  newCard+current_total
 end
 
 def invalid_command
   puts "Please enter a valid command"
-  prompts_user  
+  prompts_user
 end
 
 #####################################################
@@ -51,13 +61,17 @@ end
 #####################################################
 
 def runner
-  welcome 
+  welcome
   initial_total = initial_round
-  new_total = 0 
-  until new_total > 21
+  dealer_total = dealers_hand
+  new_total = 0
+  until new_total > 21 || new_total > dealer_total
     new_total = hit?(initial_total)
     display_card_total(new_total)
-  end 
+  end
+  if new_total > dealer_total && new_total <=21
+     game_won(dealer_total, new_total)
+  else
   end_game(new_total)
+  end
 end
-    
