@@ -1,3 +1,5 @@
+require 'pry'
+
 def welcome
   puts "Welcome to the Blackjack Table"
 end
@@ -15,7 +17,7 @@ def prompt_user
 end
 
 def get_user_input
-  return gets
+  return gets.chomp
 end
 
 def end_game(card_total)
@@ -57,7 +59,8 @@ def runner
   welcome
   sum = initial_round
   until sum > 21
-    sum = hit?(sum)
+    current_hand = hit?(sum)
+    sum = current_hand if current_hand.is_a?(Integer)
     display_card_total(sum)
   end
   end_game(sum)
